@@ -8,12 +8,18 @@ public class Inserzione {
     double prezzo;
     String prezzosped;
     String residenza;
+    String idimm;
+    String desc;
+    String[] pref;
 
-    public Inserzione(String nome, double prezzo,String prezzosped, String residenza) {
+    public Inserzione(String nome, double prezzo,String prezzosped, String residenza,String idimm,String desc,String[] pref) {
         this.nome = nome;
         this.prezzo = prezzo;
         this.prezzosped = prezzosped;
         this.residenza = residenza;
+        this.idimm=idimm;
+        this.desc=desc;
+        this.pref=pref;
     }
 
     public String getNome() {
