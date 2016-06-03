@@ -3,6 +3,7 @@ package it.gov.iiseinaudiscarpa.rivendilibro;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        CaricaLibri();
     }
 
     @Override
@@ -39,9 +41,9 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
 
     public void CaricaLibri() {
         listalibri.clear();
-        int idr = getIntent().getExtras().getInt("idr");
+        int idRegione = getIntent().getExtras().getInt("idRegione");
         String[] nomiParametri = new String[]{"idr"};
-        String[] valoriParametri = new String[]{"" + idr};
+        String[] valoriParametri = new String[]{"" + idRegione};
         Conn.getInstance(this).GetDataFromWebsite(this, "libri", new String[0], new String[0]);
     }
 

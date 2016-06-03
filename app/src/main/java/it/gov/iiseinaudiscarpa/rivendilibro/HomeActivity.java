@@ -24,9 +24,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity{
+    static public String result;
     static HttpURLConnection urlConnection;
     static BufferedReader reader;
-    static public String result;
     static String[] regione = new String[50];
     static ArrayList<Regione> listaregioni= new ArrayList<Regione>(50);
     static ArrayAdapter<Regione> listViewadapter;
@@ -125,16 +125,11 @@ public class HomeActivity extends AppCompatActivity{
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if(position==0){
-                        Intent i= new Intent(getApplicationContext(),LibriTuttiActivity.class);
-                        startActivity(i);
-                    }else{
-                        Intent i= new Intent(getApplicationContext(),LibriActivity.class);
-                        final Regione r = (Regione)parent.getItemAtPosition(position);
-                        int idRegione = r.id;
-                        i.putExtra("idRegione",idRegione);
-                        startActivity(i);
-                    }
+                    Intent i = new Intent(getApplicationContext(), LibriActivity.class);
+                    final Regione r = (Regione) parent.getItemAtPosition(position);
+                    int idRegione = r.id;
+                    i.putExtra("idRegione", idRegione);
+                    startActivity(i);
                 }
             });
             super.onPostExecute(result);

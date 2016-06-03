@@ -67,6 +67,7 @@ public class AnnunciActivity extends AppCompatActivity implements DataHandler {
     }
 
     public void HandleData(String result) {
+        System.out.println("Sono arrivato qua");
         if (result != null) {
             String[] linee = result.split("\n");
             String linea = null;
