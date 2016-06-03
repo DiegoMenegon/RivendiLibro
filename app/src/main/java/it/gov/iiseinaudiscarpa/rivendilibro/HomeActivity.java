@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity{
         @Override
         protected void onPreExecute() {
            // Toast.makeText(Home.this, "Inizio...", Toast.LENGTH_SHORT).show();
-            listaregioni.removeAll(listaregioni);
+            listaregioni.clear();
             super.onPreExecute();
 
         }
@@ -126,10 +126,10 @@ public class HomeActivity extends AppCompatActivity{
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if(position==0){
-                        Intent i= new Intent(getApplicationContext(),LibriTutti.class);
+                        Intent i= new Intent(getApplicationContext(),LibriTuttiActivity.class);
                         startActivity(i);
                     }else{
-                        Intent i= new Intent(getApplicationContext(),Libri.class);
+                        Intent i= new Intent(getApplicationContext(),LibriActivity.class);
                         final Regione r = (Regione)parent.getItemAtPosition(position);
                         int idRegione = r.id;
                         i.putExtra("idRegione",idRegione);

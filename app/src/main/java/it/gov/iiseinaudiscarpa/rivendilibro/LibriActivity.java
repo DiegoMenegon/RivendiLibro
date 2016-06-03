@@ -50,7 +50,7 @@ public class LibriActivity extends AppCompatActivity{
         @Override
         protected void onPreExecute() {
            // Toast.makeText(Libri.this, "Inizio...", Toast.LENGTH_SHORT).show();
-            listalibri.removeAll(listalibri);
+            listalibri.clear();
             super.onPreExecute();
 
         }
