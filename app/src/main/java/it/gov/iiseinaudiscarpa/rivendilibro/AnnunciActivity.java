@@ -47,6 +47,7 @@ public class AnnunciActivity extends AppCompatActivity{
     static ArrayAdapter<Inserzione> listViewadapter;
     static int idLibro;
     static int idr;
+    String[] pref;
 
 
     @Override
@@ -101,7 +102,8 @@ public class AnnunciActivity extends AppCompatActivity{
                 while ((line = reader.readLine()) != null) {
                     System.out.println(line);
                     inserzione=line.split("§");
-                    listainserzioni.add(new Inserzione(inserzione[0],Double.parseDouble(inserzione[1]),inserzione[2],inserzione[3]));
+                    pref=inserzione[6].split(",");
+                    listainserzioni.add(new Inserzione(inserzione[0],Double.parseDouble(inserzione[1]),inserzione[2],inserzione[3],inserzione[4],inserzione[5],pref));
                 }
 
                 if (buffer.length() == 0) {
