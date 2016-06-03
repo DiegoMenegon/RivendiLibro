@@ -21,7 +21,7 @@ import java.net.URL;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-public class Libri extends AppCompatActivity{
+public class LibriActivity extends AppCompatActivity{
     static HttpURLConnection urlConnection;
     static BufferedReader reader;
     static public String result;
@@ -86,7 +86,7 @@ public class Libri extends AppCompatActivity{
                 }
 
                 if (buffer.length() == 0) {
-                    Toast.makeText(Libri.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LibriActivity.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
                     return null;
                 }
 
@@ -103,7 +103,7 @@ public class Libri extends AppCompatActivity{
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Toast.makeText(Libri.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LibriActivity.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 return result;
@@ -124,7 +124,7 @@ public class Libri extends AppCompatActivity{
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent i= new Intent(getApplicationContext(),Annunci.class);
+                    Intent i= new Intent(getApplicationContext(),AnnunciActivity.class);
                     final Libro l = (Libro)parent.getItemAtPosition(position);
                     int idLibro = l.id;
                     i.putExtra("idLibro",idLibro);

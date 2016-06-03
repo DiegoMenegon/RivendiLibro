@@ -23,7 +23,7 @@ import java.net.URL;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-public class Home extends AppCompatActivity{
+public class HomeActivity extends AppCompatActivity{
     static HttpURLConnection urlConnection;
     static BufferedReader reader;
     static public String result;
@@ -87,7 +87,7 @@ public class Home extends AppCompatActivity{
                 }
 
                 if (buffer.length() == 0) {
-                    Toast.makeText(Home.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
                     return null;
                 }
 
@@ -104,7 +104,7 @@ public class Home extends AppCompatActivity{
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Toast.makeText(Home.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeActivity.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 return result;
