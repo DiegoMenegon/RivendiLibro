@@ -10,15 +10,19 @@ public class Inserzione {
     String residenza;
     String idimm;
     String desc;
+    String mail;
+    String numero;
     String[] pref;
 
-    public Inserzione(String nome, double prezzo,String prezzosped, String residenza,String idimm,String desc,String[] pref) {
+    public Inserzione(String nome, double prezzo,String prezzosped, String residenza,String idimm,String desc,String mail,String numero,String[] pref) {
         this.nome = nome;
         this.prezzo = prezzo;
         this.prezzosped = prezzosped;
         this.residenza = residenza;
         this.idimm=idimm;
         this.desc=desc;
+        this.mail=mail;
+        this.numero=numero;
         this.pref=pref;
     }
 

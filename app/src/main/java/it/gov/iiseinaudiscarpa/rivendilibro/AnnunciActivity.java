@@ -73,23 +73,40 @@ public class AnnunciActivity extends AppCompatActivity implements DataHandler {
             String linea = null;
             for (int i = 0; i < linee.length; i++) {
                 linea = linee[i];
+                System.out.println(""+linea);
                 String[] valori = linea.split("§");
                 String[] preferenze = new String[1];
-                if (valori.length > 6) {
-                    if (valori[6].contains(",")) {
-                        preferenze = valori[6].split(",");
+                if (valori.length > 8) {
+                    if (valori[8].contains(",")) {
+                        preferenze = valori[8].split(",");
                     } else {
-                        preferenze[0] = valori[6];
+                        preferenze[0] = valori[8];
                     }
                 } else {
                     preferenze[0] = "";
                 }
-                listainserzioni.add(new Inserzione(valori[0], Double.parseDouble(valori[1]), valori[2], valori[3], valori[4], valori[5], preferenze));
+                listainserzioni.add(new Inserzione(valori[0], Double.parseDouble(valori[1]), valori[2], valori[3], valori[4], valori[5],valori[6],valori[7],preferenze));
             }
             //Impostiamo l'adapter alla listView
             ListView lv = (ListView) findViewById(R.id.listView);
             lv.setAdapter(listViewadapter);
-            //TODO : ON LIST ITEM CLICK
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent i = new Intent(getApplicationContext(), Finestra.class);
+                    final Inserzione in = (Inserzione) parent.getItemAtPosition(position);
+                    i.putExtra("nome", in.nome);
+                    i.putExtra("prezzo", in.prezzo);
+                    i.putExtra("prezzosped", in.prezzosped);
+                    i.putExtra("residenza", in.residenza);
+                    i.putExtra("idimm", in.idimm);
+                    i.putExtra("desc", in.desc);
+                    i.putExtra("mail", in.mail);
+                    i.putExtra("numero", in.numero);
+                    i.putExtra("pref", in.pref);
+                    startActivity(i);
+                }
+            });
         } else {
             System.out.println("Risultato della pagina nullo");
         }
