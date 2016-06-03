@@ -49,7 +49,7 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
 
     @Override
     public void HandleData(String data) {
-        if (data != null) {
+        if (data != null && data != "") {
             String[] linee = data.split("\n");
             String linea = null;
             for (int i = 0; i < linee.length; i++) {
