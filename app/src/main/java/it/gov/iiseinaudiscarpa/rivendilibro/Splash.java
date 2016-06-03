@@ -18,7 +18,6 @@ import java.io.InputStream;
 public class Splash extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         WebView web = (WebView) findViewById(R.id.webView);
@@ -32,7 +31,7 @@ public class Splash extends Activity {
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }finally{
-                    Intent intent = new Intent(Splash.this,Home.class);
+                    Intent intent = new Intent(Splash.this,HomeActivity.class);
                     startActivity(intent);
                 }
             }
@@ -42,7 +41,6 @@ public class Splash extends Activity {
 
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         finish();
     }
