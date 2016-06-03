@@ -49,6 +49,7 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
 
     @Override
     public void HandleData(String data) {
+        ListView lv = (ListView) findViewById(R.id.listView);
         if (data != null && data != "") {
             String[] linee = data.split("\n");
             String linea = null;
@@ -58,7 +59,6 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
                 listalibri.add(new Libro(Integer.parseInt(valori[0]), valori[1]));
             }
             //Impostiamo l'adapter alla listView
-            ListView lv = (ListView) findViewById(R.id.listView);
             lv.setAdapter(listViewadapter);
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -71,7 +71,7 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
                 }
             });
         } else {
-            System.out.println("Risultato della pagina nullo");
+            Toast.makeText(LibriActivity.this, "Pagina vuota", Toast.LENGTH_LONG).show();
         }
     }
 }
