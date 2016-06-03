@@ -95,50 +95,59 @@ public class Finestra extends Activity {
         tvdescrizione.setText(desc);
 
 
-
-        for (int i=0;i<pref.length;i++){
-            if(pref[i].contains("Telefono")){
-                telefono.setVisibility(View.VISIBLE);
-                if(tvcontatto1.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
-                    tvcontatto1.setText(numero);
-                }else{
-                    if(tvcontatto2.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
-                        tvcontatto2.setText(numero);
+        if (pref[0].toString().contains("")){
+            telefono.setVisibility(View.VISIBLE);
+            mail.setVisibility(View.VISIBLE);
+            sms.setVisibility(View.VISIBLE);
+            whatsapp.setVisibility(View.VISIBLE);
+            tvcontatto1.setText(numero);
+            tvcontatto2.setText(email);
+        }else{
+                for (int i=0;i<pref.length;i++){
+                    if(pref[i].contains("Telefono")){
+                        telefono.setVisibility(View.VISIBLE);
+                        if(tvcontatto1.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
+                            tvcontatto1.setText(numero);
+                        }else{
+                            if(tvcontatto2.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
+                                tvcontatto2.setText(numero);
+                            }
+                        }
+                    }
+                    if(pref[i].contains("Mail")){
+                        mail.setVisibility(View.VISIBLE);
+                        if(tvcontatto1.getText().equals("")){
+                            tvcontatto1.setText(email);
+                        }else{
+                            if(tvcontatto2.getText().equals("")){
+                                tvcontatto2.setText(email);
+                            }
+                        }
+                    }
+                    if(pref[i].contains("Whatsapp")){
+                        whatsapp.setVisibility(View.VISIBLE);
+                        if(tvcontatto1.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
+                            tvcontatto1.setText(numero);
+                        }else{
+                            if(tvcontatto2.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
+                                tvcontatto2.setText(numero);
+                            }
+                        }
+                    }
+                    if(pref[i].contains("Messaggio")){
+                        sms.setVisibility(View.VISIBLE);
+                        if(tvcontatto1.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
+                            tvcontatto1.setText(numero);
+                        }else{
+                            if(tvcontatto2.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
+                                tvcontatto2.setText(numero);
+                            }
+                        }
                     }
                 }
-            }
-            if(pref[i].contains("Mail")){
-                mail.setVisibility(View.VISIBLE);
-                if(tvcontatto1.getText().equals("")){
-                    tvcontatto1.setText(email);
-                }else{
-                    if(tvcontatto2.getText().equals("")){
-                        tvcontatto2.setText(email);
-                    }
-                }
-            }
-            if(pref[i].contains("Whatsapp")){
-                whatsapp.setVisibility(View.VISIBLE);
-                if(tvcontatto1.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
-                    tvcontatto1.setText(numero);
-                }else{
-                    if(tvcontatto2.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
-                        tvcontatto2.setText(numero);
-                    }
-                }
-            }
-            if(pref[i].contains("Messaggio")){
-                sms.setVisibility(View.VISIBLE);
-                if(tvcontatto1.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
-                    tvcontatto1.setText(numero);
-                }else{
-                    if(tvcontatto2.getText().equals("")||tvcontatto1.getText().toString().contains("@")==false){
-                        tvcontatto2.setText(numero);
-                    }
-                }
-            }
         }
     }
+
 
 }
 
