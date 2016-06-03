@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,23 +39,16 @@ import java.util.ArrayList;
 
 import it.gov.iiseinaudiscarpa.rivendilibro.R;
 
-public class AnnunciActivity extends AppCompatActivity{
-    static HttpURLConnection urlConnection;
-    static BufferedReader reader;
-    static public String result;
-    static String[] inserzione = new String[50];
+public class AnnunciActivity extends AppCompatActivity implements DataHandler {
     static ArrayList<Inserzione> listainserzioni= new ArrayList<Inserzione>(50);
     static ArrayAdapter<Inserzione> listViewadapter;
-    static int idLibro;
-    static int idr;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //ciaone
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new BackgroundTask().execute();
+        CaricaAnnunci();
     }
 
     @Override
@@ -63,86 +57,32 @@ public class AnnunciActivity extends AppCompatActivity{
         super.onStart();
     }
 
-    private class BackgroundTask extends AsyncTask<Void, Integer, String>
-    {
+    public void CaricaAnnunci() {
+        listainserzioni.clear();
+        int idLibro = getIntent().getExtras().getInt("idLibro");
+        int idRegione = getIntent().getExtras().getInt("idRegione");
+        String[] nomiParametri = new String[]{"id", "idr"};
+        String[] valoriParametri = new String[]{"" + idLibro, "" + idRegione};
+        Conn.getInstance(this).GetDataFromWebsite(this, "annunciLibro", nomiParametri, valoriParametri);
+    }
 
-        @Override
-        protected void onPreExecute() {
-            listainserzioni.clear();
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected String doInBackground(Void... arg0) {
-            idLibro=getIntent().getExtras().getInt("idLibro");
-            idr=getIntent().getExtras().getInt("idRegione");
-            try {
-                URL url = null;
-                Uri.Builder builder = new Uri.Builder();
-                builder.scheme("http").authority("rivendilibro.altervista.org")
-                        .appendPath("android.php")
-                        .appendQueryParameter("p", "annunciLibro")
-                        .appendQueryParameter("id", String.valueOf(idLibro))
-                        .appendQueryParameter("idr", String.valueOf(idr));
-                url = new URL(builder.toString());
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-                if (inputStream == null) {
-                    Log.e("Errore", "Database Vuoto");
-                    return null;
-                }
-
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
-                    inserzione=line.split("§");
-                    //listainserzioni.add(new Inserzione(inserzione[0],Double.parseDouble(inserzione[1]),inserzione[2],inserzione[3]));
-                }
-
-                if (buffer.length() == 0) {
-                    Toast.makeText(AnnunciActivity.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
-                    return null;
-                }
-
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Toast.makeText(AnnunciActivity.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                return result;
+    public void HandleData(String result) {
+        if (result != null) {
+            String[] linee = result.split("\n");
+            String linea = null;
+            for (int i = 0; i < linee.length; i++) {
+                linea = linee[i];
+                String[] valori = linea.split("§");
+                String[] preferenze = valori[6].split(",");
+                listainserzioni.add(new Inserzione(valori[0], Double.parseDouble(valori[1]), valori[2], valori[3], valori[4], valori[5], preferenze));
             }
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
+            //Impostiamo l'adapter alla listView
             ListView lv = (ListView) findViewById(R.id.listView);
             lv.setAdapter(listViewadapter);
-            super.onPostExecute(result);
+            //TODO : ON LIST ITEM CLICK
+        } else {
+            System.out.println("Risultato della pagina nullo");
         }
-
-
-
     }
+
 }

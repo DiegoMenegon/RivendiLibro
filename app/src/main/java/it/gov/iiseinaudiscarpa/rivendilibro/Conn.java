@@ -24,8 +24,8 @@ import java.util.ArrayList;
  */
 public class Conn {
 
-    private static Conn instance = new Conn();
     static Context context;
+    private static Conn instance = new Conn();
     ConnectivityManager connectivityManager;
     NetworkInfo wifiInfo, mobileInfo;
     boolean connected = false;
@@ -42,7 +42,12 @@ public class Conn {
     }
 
     public void GetDataFromWebsite(DataHandler handler,String pagina,String nomeParametro,String valoreParametro){
-        BackgroundTask task = new BackgroundTask(handler,pagina,nomeParametro,valoreParametro);
+        BackgroundTask task = new BackgroundTask(handler, pagina, new String[]{nomeParametro}, new String[]{valoreParametro});
+        task.execute();
+    }
+
+    public void GetDataFromWebsite(DataHandler handler, String pagina, String[] nomiParametro, String[] valoriParametro) {
+        BackgroundTask task = new BackgroundTask(handler, pagina, nomiParametro, valoriParametro);
         task.execute();
     }
 
@@ -51,14 +56,14 @@ public class Conn {
 
         HttpURLConnection urlConnection;
         BufferedReader reader;
-        String nomeParametro;
-        String valoreParametro;
+        String[] nomiParametro;
+        String[] valoriParametro;
         String pagina;
         DataHandler handler;
 
-        public BackgroundTask(DataHandler Handler,String Pagina,String NomeParametro,String ValoreParametro){
-            nomeParametro = NomeParametro;
-            valoreParametro = ValoreParametro;
+        public BackgroundTask(DataHandler Handler, String Pagina, String[] NomiParametro, String[] ValoriParametro) {
+            nomiParametro = NomiParametro;
+            valoriParametro = ValoriParametro;
             handler = Handler;
             pagina = Pagina;
         }
@@ -77,14 +82,17 @@ public class Conn {
                 Uri.Builder builder = new Uri.Builder();
                 builder.scheme("http").authority("rivendilibro.altervista.org")
                         .appendPath("android.php")
-                        .appendQueryParameter("p", pagina)
-                        .appendQueryParameter(nomeParametro,valoreParametro);
+                        .appendQueryParameter("p", pagina);
+                for (int i = 0; i < nomiParametro.length; i++) {
+                    builder.appendQueryParameter(nomiParametro[i], valoriParametro[i]);
+                }
                 url = new URL(builder.toString());
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 if (inputStream == null) {
                     Log.e("Errore", "Database Vuoto");
                     return null;
@@ -93,9 +101,9 @@ public class Conn {
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
+                    sb.append(line + "\n");
                 }
-
+                result = sb.toString();
                 if (buffer.length() == 0) {
                     return null;
                 }
@@ -123,6 +131,7 @@ public class Conn {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
+            System.out.println("Caricamento : " + values);
 
         }
 

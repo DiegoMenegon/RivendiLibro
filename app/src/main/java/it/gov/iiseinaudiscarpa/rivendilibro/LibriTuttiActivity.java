@@ -24,21 +24,15 @@ import java.util.ArrayList;
 /**
  * Created by Diego on 30/05/2016.
  */
-public class LibriTuttiActivity extends AppCompatActivity {
-    static HttpURLConnection urlConnection;
-    static BufferedReader reader;
-    static public String result;
-    static String[] libro = new String[50];
+public class LibriTuttiActivity extends AppCompatActivity implements DataHandler {
     static ArrayList<Libro> listalibri= new ArrayList<Libro>(50);
     static ArrayAdapter<Libro> listViewadapter;
-    static int idr;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new BackgroundTask().execute();
     }
 
     @Override
@@ -47,95 +41,36 @@ public class LibriTuttiActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    private class BackgroundTask extends AsyncTask<Void, Integer, String>
-    {
+    public void CaricaLibri() {
+        listalibri.clear();
+        Conn.getInstance(this).GetDataFromWebsite(this, "libri", new String[0], new String[0]);
+    }
 
-        @Override
-        protected void onPreExecute() {
-           // Toast.makeText(LibriTutti.this, "Inizio...", Toast.LENGTH_SHORT).show();
-            listalibri.clear();
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected String doInBackground(Void... arg0) {
-
-            try {
-                URL url = null;
-                Uri.Builder builder = new Uri.Builder();
-                builder.scheme("http").authority("rivendilibro.altervista.org")
-                        .appendPath("android.php")
-                        .appendQueryParameter("p", "libri");
-                url = new URL(builder.toString());
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-                if (inputStream == null) {
-                    Log.e("Errore", "Database Vuoto");
-                    return null;
-                }
-
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
-                    libro=line.split("§");
-                    listalibri.add(new Libro(Integer.parseInt(libro[0]),libro[1]));
-                }
-
-                if (buffer.length() == 0) {
-                    Toast.makeText(LibriTuttiActivity.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
-                    return null;
-                }
-
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Toast.makeText(LibriTuttiActivity.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                return result;
+    @Override
+    public void HandleData(String data) {
+        if (data != null) {
+            String[] linee = data.split("\n");
+            String linea = null;
+            for (int i = 0; i < linee.length; i++) {
+                linea = linee[i];
+                String[] valori = linea.split("§");
+                listalibri.add(new Libro(Integer.parseInt(valori[0]), valori[1]));
             }
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-           // Toast.makeText(LibriTutti.this, "Connessione riuscita!", Toast.LENGTH_SHORT).show();
+            //Impostiamo l'adapter alla listView
             ListView lv = (ListView) findViewById(R.id.listView);
             lv.setAdapter(listViewadapter);
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent i= new Intent(getApplicationContext(),AnnunciActivity.class);
-                    final Libro l = (Libro)parent.getItemAtPosition(position);
+                    Intent i = new Intent(getApplicationContext(), AnnunciActivity.class);
+                    final Libro l = (Libro) parent.getItemAtPosition(position);
                     int idLibro = l.id;
-                    i.putExtra("idLibro",idLibro);
+                    i.putExtra("idLibro", idLibro);
                     startActivity(i);
                 }
             });
-            super.onPostExecute(result);
+        } else {
+            System.out.println("Risultato della pagina nullo");
         }
-
-
-
     }
 }
