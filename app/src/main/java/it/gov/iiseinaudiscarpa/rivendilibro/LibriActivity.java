@@ -44,8 +44,7 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
         int idRegione = getIntent().getExtras().getInt("idRegione");
         String[] nomiParametri = new String[]{"idr"};
         String[] valoriParametri = new String[]{"" + idRegione};
-        System.out.println("La regione e' " + idRegione);
-        Conn.getInstance(this).GetDataFromWebsite(this, "libri", new String[0], new String[0]);
+        Conn.getInstance(this).GetDataFromWebsite(this, "libri", nomiParametri, valoriParametri);
     }
 
     @Override
