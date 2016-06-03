@@ -23,7 +23,7 @@ import java.net.URL;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity{
+public class HomeActivity extends AppCompatActivity implements DataHandler {
     static public String result;
     static HttpURLConnection urlConnection;
     static BufferedReader reader;
@@ -37,8 +37,12 @@ public class HomeActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        new BackgroundTask().execute();
+        if (Conn.getInstance(this).isNetworkAvailable()) {
+            setContentView(R.layout.activity_main);
+            CaricaRegioni();
+        } else {
+            setContentView(R.layout.no_conn);
+        }
     }
 
     @Override
@@ -47,95 +51,33 @@ public class HomeActivity extends AppCompatActivity{
         super.onStart();
     }
 
-    private class BackgroundTask extends AsyncTask<Void, Integer, String>
-    {
+    public void CaricaRegioni() {
+        listaregioni.clear();
+        Conn.getInstance(this).GetDataFromWebsite(this, "listaRegioni", new String[0], new String[0]);
+    }
 
-        @Override
-        protected void onPreExecute() {
-           // Toast.makeText(Home.this, "Inizio...", Toast.LENGTH_SHORT).show();
-            listaregioni.clear();
-            super.onPreExecute();
-
+    @Override
+    public void HandleData(String data) {
+        String[] linee = data.split("\n");
+        String linea = null;
+        for (int i = 0; i < linee.length; i++) {
+            linea = linee[i];
+            String[] valori = linea.split("§");
+            listaregioni.add(new Regione(valori[1], Integer.parseInt(valori[0])));
         }
-
-        @Override
-        protected String doInBackground(Void... arg0) {
-
-            try {
-                URL url = null;
-                Uri.Builder builder = new Uri.Builder();
-                builder.scheme("http").authority("rivendilibro.altervista.org")
-                        .appendPath("android.php")
-                        .appendQueryParameter("p", "listaRegioni");
-                url = new URL(builder.toString());
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-                if (inputStream == null) {
-                    Log.e("Errore", "Database Vuoto");
-                    return null;
-                }
-
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                listaregioni.add(new Regione("Tutta Italia",0));
-                while ((line = reader.readLine()) != null) {
-                    regione=line.split("§");
-                    listaregioni.add(new Regione(regione[1],Integer.parseInt(regione[0])));
-                }
-
-                if (buffer.length() == 0) {
-                    Toast.makeText(HomeActivity.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
-                    return null;
-                }
-
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Toast.makeText(HomeActivity.this, "Connessione non riuscita!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                return result;
+        //Impostiamo l'adapter alla listView
+        ListView lv = (ListView) findViewById(R.id.listView);
+        lv.setAdapter(listViewadapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getApplicationContext(), LibriActivity.class);
+                final Regione r = (Regione) parent.getItemAtPosition(position);
+                int idRegione = r.id;
+                i.putExtra("idRegione", idRegione);
+                startActivity(i);
             }
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-           // Toast.makeText(Home.this, "Connessione riuscita!", Toast.LENGTH_SHORT).show();
-            ListView lv = (ListView) findViewById(R.id.listView);
-            lv.setAdapter(listViewadapter);
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent i = new Intent(getApplicationContext(), LibriActivity.class);
-                    final Regione r = (Regione) parent.getItemAtPosition(position);
-                    int idRegione = r.id;
-                    i.putExtra("idRegione", idRegione);
-                    startActivity(i);
-                }
-            });
-            super.onPostExecute(result);
-        }
-
-
+        });
 
     }
 }
