@@ -51,6 +51,7 @@ public class AnnunciActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //ciaone
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new BackgroundTask().execute();
