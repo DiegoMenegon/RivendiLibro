@@ -60,6 +60,7 @@ public class HomeActivity extends AppCompatActivity implements DataHandler {
     public void HandleData(String data) {
         String[] linee = data.split("\n");
         String linea = null;
+        listaregioni.add(new Regione("Tutte le regioni", 0));
         for (int i = 0; i < linee.length; i++) {
             linea = linee[i];
             String[] valori = linea.split("§");
