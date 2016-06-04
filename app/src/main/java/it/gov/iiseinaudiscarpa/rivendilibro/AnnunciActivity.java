@@ -74,7 +74,6 @@ public class AnnunciActivity extends AppCompatActivity implements DataHandler {
             String linea = null;
             for (int i = 0; i < linee.length; i++) {
                 linea = linee[i];
-                System.out.println(""+linea);
                 String[] valori = linea.split("§");
                 String[] preferenze = new String[1];
                 if (valori.length > 8) {
@@ -86,6 +85,7 @@ public class AnnunciActivity extends AppCompatActivity implements DataHandler {
                 } else {
                     preferenze[0] = "";
                 }
+                valori[5].replace('♣','\n');
                 listainserzioni.add(new Inserzione(valori[0], Double.parseDouble(valori[1]), valori[2], valori[3], valori[4], valori[5],valori[6],valori[7],preferenze));
             }
             //Impostiamo l'adapter alla listView

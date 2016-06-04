@@ -66,7 +66,9 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
                     Intent i= new Intent(getApplicationContext(),AnnunciActivity.class);
                     final Libro l = (Libro)parent.getItemAtPosition(position);
                     int idLibro = l.id;
+                    int idRegione = getIntent().getExtras().getInt("idRegione");
                     i.putExtra("idLibro",idLibro);
+                    i.putExtra("idRegione",idRegione);
                     startActivity(i);
                 }
             });

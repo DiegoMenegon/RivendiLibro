@@ -20,6 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textIsSelectable="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/utente"
             android:textSize="18dp" />
@@ -177,6 +178,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textIsSelectable="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/contatto1" />
     </TableRow>
@@ -194,6 +196,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textIsSelectable="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/contatto2" />
     </TableRow>
