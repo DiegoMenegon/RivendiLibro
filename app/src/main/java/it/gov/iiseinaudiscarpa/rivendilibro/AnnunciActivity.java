@@ -59,6 +59,7 @@ public class AnnunciActivity extends AppCompatActivity implements DataHandler {
 
     public void CaricaAnnunci() {
         listainserzioni.clear();
+        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.VISIBLE);
         int idLibro = getIntent().getExtras().getInt("idLibro");
         int idRegione = getIntent().getExtras().getInt("idRegione");
         String[] nomiParametri = new String[]{"id", "idr"};
@@ -67,7 +68,7 @@ public class AnnunciActivity extends AppCompatActivity implements DataHandler {
     }
 
     public void HandleData(String result) {
-        System.out.println("Sono arrivato qua");
+        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.INVISIBLE);
         if (result != null) {
             System.out.println(result);
             String[] linee = result.split("♣");

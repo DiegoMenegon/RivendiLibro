@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -53,11 +54,13 @@ public class HomeActivity extends AppCompatActivity implements DataHandler {
 
     public void CaricaRegioni() {
         listaregioni.clear();
+        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.VISIBLE);
         Conn.getInstance(this).GetDataFromWebsite(this, "listaRegioni", new String[0], new String[0]);
     }
 
     @Override
     public void HandleData(String data) {
+        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.INVISIBLE);
         String[] linee = data.split("♣");
         String linea = null;
         listaregioni.add(new Regione("Tutte le regioni", 0));

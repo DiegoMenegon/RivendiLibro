@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -41,6 +42,7 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
 
     public void CaricaLibri() {
         listalibri.clear();
+        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.VISIBLE);
         int idRegione = getIntent().getExtras().getInt("idRegione");
         String[] nomiParametri = new String[]{"idr"};
         String[] valoriParametri = new String[]{"" + idRegione};
@@ -49,6 +51,7 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
 
     @Override
     public void HandleData(String data) {
+        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.INVISIBLE);
         ListView lv = (ListView) findViewById(R.id.listView);
         if (data != null && data != "") {
             String[] linee = data.split("♣");
