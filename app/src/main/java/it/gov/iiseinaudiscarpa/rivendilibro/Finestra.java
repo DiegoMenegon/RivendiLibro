@@ -1,6 +1,8 @@
 package it.gov.iiseinaudiscarpa.rivendilibro;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
@@ -45,6 +47,27 @@ public class Finestra extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog);
+    }
+
+    private void setCopiabile(){
+        TextView telefono = (TextView) findViewById(R.id.contatto1);
+        telefono.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("ciao", "ciaone");
+                clipboard.setPrimaryClip(clip);
+            }
+        });
+        TextView mail = (TextView) findViewById(R.id.contatto2);
+        mail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("ciao", "ciaone");
+                clipboard.setPrimaryClip(clip);
+            }
+        });
     }
 
     @Override
@@ -95,7 +118,7 @@ public class Finestra extends Activity {
         tvdescrizione.setText(desc);
 
 
-        if (pref[0].toString().contains("")){
+        if (pref[0].toString().equals("")){
             telefono.setVisibility(View.VISIBLE);
             mail.setVisibility(View.VISIBLE);
             sms.setVisibility(View.VISIBLE);
