@@ -1,6 +1,7 @@
 package it.gov.iiseinaudiscarpa.rivendilibro;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -57,9 +59,20 @@ public class AnnunciActivity extends AppCompatActivity implements DataHandler {
         super.onStart();
     }
 
+    private void mettiCaricamento(){
+        WebView web = (WebView) findViewById(R.id.webCaricamento);
+        web.setBackgroundColor(Color.TRANSPARENT); //for gif without background
+        web.loadUrl("file:///android_asset/htmls/gif.html");
+    }
+
+    private void togliCaricamento(){
+        WebView web = (WebView) findViewById(R.id.webCaricamento);
+        web.setVisibility(View.INVISIBLE);
+    }
+
     public void CaricaAnnunci() {
         listainserzioni.clear();
-        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.VISIBLE);
+        mettiCaricamento();
         int idLibro = getIntent().getExtras().getInt("idLibro");
         int idRegione = getIntent().getExtras().getInt("idRegione");
         String[] nomiParametri = new String[]{"id", "idr"};
@@ -68,7 +81,7 @@ public class AnnunciActivity extends AppCompatActivity implements DataHandler {
     }
 
     public void HandleData(String result) {
-        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.INVISIBLE);
+        togliCaricamento();
         if (result != null) {
             System.out.println(result);
             String[] linee = result.split("♣");

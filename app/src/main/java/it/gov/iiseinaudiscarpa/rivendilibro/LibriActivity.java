@@ -1,6 +1,7 @@
 package it.gov.iiseinaudiscarpa.rivendilibro;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.SystemClock;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -40,9 +42,20 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
         super.onStart();
     }
 
+    private void mettiCaricamento(){
+        WebView web = (WebView) findViewById(R.id.webCaricamento);
+        web.setBackgroundColor(Color.TRANSPARENT); //for gif without background
+        web.loadUrl("file:///android_asset/htmls/gif.html");
+    }
+
+    private void togliCaricamento(){
+        WebView web = (WebView) findViewById(R.id.webCaricamento);
+        web.setVisibility(View.INVISIBLE);
+    }
+
     public void CaricaLibri() {
         listalibri.clear();
-        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.VISIBLE);
+        mettiCaricamento();
         int idRegione = getIntent().getExtras().getInt("idRegione");
         String[] nomiParametri = new String[]{"idr"};
         String[] valoriParametri = new String[]{"" + idRegione};
@@ -51,7 +64,7 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
 
     @Override
     public void HandleData(String data) {
-        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.INVISIBLE);
+        togliCaricamento();
         ListView lv = (ListView) findViewById(R.id.listView);
         if (data != null && data != "") {
             String[] linee = data.split("♣");

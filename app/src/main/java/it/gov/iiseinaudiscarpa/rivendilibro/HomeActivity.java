@@ -2,6 +2,7 @@ package it.gov.iiseinaudiscarpa.rivendilibro;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -46,6 +48,17 @@ public class HomeActivity extends AppCompatActivity implements DataHandler {
         }
     }
 
+    private void mettiCaricamento(){
+        WebView web = (WebView) findViewById(R.id.webCaricamento);
+        web.setBackgroundColor(Color.TRANSPARENT); //for gif without background
+        web.loadUrl("file:///android_asset/htmls/gif.html");
+    }
+
+    private void togliCaricamento(){
+        WebView web = (WebView) findViewById(R.id.webCaricamento);
+        web.setVisibility(View.INVISIBLE);
+    }
+
     @Override
     protected void onStart() {
         listViewadapter = new ArrayAdapter<Regione>(this,android.R.layout.simple_list_item_1,listaregioni);
@@ -54,13 +67,13 @@ public class HomeActivity extends AppCompatActivity implements DataHandler {
 
     public void CaricaRegioni() {
         listaregioni.clear();
-        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.VISIBLE);
+        mettiCaricamento();
         Conn.getInstance(this).GetDataFromWebsite(this, "listaRegioni", new String[0], new String[0]);
     }
 
     @Override
     public void HandleData(String data) {
-        ((TextView)findViewById(R.id.textCaricamento)).setVisibility(View.INVISIBLE);
+        togliCaricamento();
         String[] linee = data.split("♣");
         String linea = null;
         listaregioni.add(new Regione("Tutte le regioni", 0));
