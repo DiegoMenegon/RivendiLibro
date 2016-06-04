@@ -51,7 +51,7 @@ public class LibriActivity extends AppCompatActivity implements DataHandler {
     public void HandleData(String data) {
         ListView lv = (ListView) findViewById(R.id.listView);
         if (data != null && data != "") {
-            String[] linee = data.split("\n");
+            String[] linee = data.split("♣");
             String linea = null;
             for (int i = 0; i < linee.length; i++) {
                 linea = linee[i];

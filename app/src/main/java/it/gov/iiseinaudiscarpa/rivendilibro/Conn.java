@@ -101,7 +101,7 @@ public class Conn {
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    sb.append(line + "\n");
+                    sb.append(line + "♣");
                 }
                 result = sb.toString();
                 if (buffer.length() == 0) {
