@@ -47,6 +47,7 @@ public class Finestra extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog);
+        setCopiabile();
     }
 
     private void setCopiabile(){
@@ -57,6 +58,7 @@ public class Finestra extends Activity {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("ciao", "ciaone");
                 clipboard.setPrimaryClip(clip);
+                Toast.makeText(Finestra.this,"Copiato qualcosa",Toast.LENGTH_SHORT);
             }
         });
         TextView mail = (TextView) findViewById(R.id.contatto2);
@@ -66,6 +68,7 @@ public class Finestra extends Activity {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("ciao", "ciaone");
                 clipboard.setPrimaryClip(clip);
+                Toast.makeText(Finestra.this,"Copiato qualcosa",Toast.LENGTH_SHORT);
             }
         });
     }
