@@ -20,7 +20,7 @@ public class Inserzione {
         this.prezzosped = prezzosped;
         this.residenza = residenza;
         this.idimm=idimm;
-        this.desc=desc;
+        this.desc=desc.replace('|','\n');
         this.mail=mail;
         this.numero=numero;
         this.pref=pref;
