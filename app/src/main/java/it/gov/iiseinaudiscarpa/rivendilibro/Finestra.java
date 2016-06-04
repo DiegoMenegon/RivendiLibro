@@ -51,6 +51,7 @@ public class Finestra extends Activity {
     }
 
     private void setCopiabile(){
+        Toast.makeText(Finestra.this,"Faccio copiabile",Toast.LENGTH_SHORT).show();
         TextView telefono = (TextView) findViewById(R.id.contatto1);
         telefono.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +59,7 @@ public class Finestra extends Activity {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("ciao", "ciaone");
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(Finestra.this,"Copiato qualcosa",Toast.LENGTH_SHORT);
+                Toast.makeText(Finestra.this,"Copiato qualcosa",Toast.LENGTH_LONG).show();
             }
         });
         TextView mail = (TextView) findViewById(R.id.contatto2);
@@ -68,7 +69,7 @@ public class Finestra extends Activity {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("ciao", "ciaone");
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(Finestra.this,"Copiato qualcosa",Toast.LENGTH_SHORT);
+                Toast.makeText(Finestra.this,"Copiato qualcosa",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -76,6 +77,7 @@ public class Finestra extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        Toast.makeText(Finestra.this,"Copiato qualcosa",Toast.LENGTH_LONG);
         final String nome= getIntent().getExtras().getString("nome");
         final double prezzo=getIntent().getExtras().getDouble("prezzo");
         final String prezzosped=getIntent().getExtras().getString("prezzosped");
